@@ -3,7 +3,8 @@ package com.mortgert.data.models;
 import javax.persistence.*;
 import java.util.Collection;
 
-@Entity
+@Entity(name = "Role")
+@Table(name = "role")
 public class Role {
 
     @Id
@@ -13,16 +14,17 @@ public class Role {
 
     @Column(name="name")
     private String name;
+
     @ManyToMany(mappedBy = "roles")
     private Collection<User> users;
 
     @ManyToMany
     @JoinTable(
             name = "roles_privileges",
-            joinColumns = @JoinColumn(
-                    name = "role_id", referencedColumnName = "role_id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "privilege_id", referencedColumnName = "id"))
+            joinColumns = {@JoinColumn(
+                    name = "role_id")},
+            inverseJoinColumns = {@JoinColumn(
+                    name = "privilege_id")})
     private Collection<Privilege> privileges;
 
     public Long getId() {

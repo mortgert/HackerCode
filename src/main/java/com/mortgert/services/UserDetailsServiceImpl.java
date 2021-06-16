@@ -33,6 +33,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                     getAuthorities(Collections.singletonList(
                             roleRepository.findByName("ROLE_USER"))));
         }
+        user.setRoles(roleRepository.findByUsers_Username(user.getUsername()));
+        Collection<Role> roleList = user.getRoles();
         return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(), user.isEnabled(),
                                                         true,true,true, getAuthorities(user.getRoles()));
     }
