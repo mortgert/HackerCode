@@ -1,4 +1,4 @@
-package com.mertgert.HackerCode;
+package com.mortgert;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
