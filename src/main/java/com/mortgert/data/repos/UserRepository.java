@@ -1,5 +1,6 @@
 package com.mortgert.data.repos;
 
+import com.mortgert.data.models.Role;
 import com.mortgert.data.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
