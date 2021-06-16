@@ -1,7 +1,6 @@
 package com.mortgert.services;
 
 import com.mortgert.data.dtos.UserDTO;
-import com.mortgert.data.models.User;
 import com.mortgert.data.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
