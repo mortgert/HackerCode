@@ -25,7 +25,7 @@ public class CompilerService {
         String className = problem.getClassName();
 
         try{
-            Class aClass = CompilerUtils.CACHED_COMPILER.loadFromJava(className,codeToRun);
+            Class<?> aClass = CompilerUtils.CACHED_COMPILER.loadFromJava(className,codeToRun);
             Runnable runner = (Runnable) aClass.newInstance();
             runner.run();
         } catch (ClassNotFoundException e) {

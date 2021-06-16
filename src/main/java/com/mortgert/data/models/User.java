@@ -1,6 +1,5 @@
 package com.mortgert.data.models;
 
-import com.mortgert.data.dtos.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -9,8 +8,8 @@ import java.io.Serializable;
 import java.util.Collection;
 
 
-@Entity
-@Table(name = "USER")
+@Entity(name = "User")
+@Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements Serializable {
@@ -37,8 +36,9 @@ public class User implements Serializable {
 
     @ManyToMany
     @JoinTable(name = "user_roles",
-                joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "user_id"),inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "role_id"))
-    private Collection<Role>roles;
+                joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    private  Collection<Role> roles;
 
     private boolean enabled;
 

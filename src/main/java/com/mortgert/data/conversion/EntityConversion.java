@@ -17,7 +17,7 @@ public class EntityConversion {
     private  ModelMapper mapper;
 
     @Autowired
-    public void setModelMapper(ModelMapper mapper){
+    public void setMapper(ModelMapper mapper){
         this.mapper = mapper;
     }
 

@@ -1,15 +1,19 @@
 package com.mortgert.data.models;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
 import javax.persistence.*;
 import java.util.Collection;
 
-@Entity
+@Entity(name = "Privilege")
+@Table(name = "privilege")
 public class Privilege {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name = "name")
     private String name;
 
     @ManyToMany(mappedBy = "privileges")
