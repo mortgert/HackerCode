@@ -4,6 +4,7 @@ import com.mortgert.security.authentication.CustomAuthenticationProvider;
 import com.mortgert.security.filters.JwtAuthenticationFilter;
 import com.mortgert.security.filters.JwtAuthorizationFilter;
 import com.mortgert.services.UserDetailsServiceImpl;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -31,13 +32,12 @@ import static com.mortgert.util.SecurityConstants.SIGN_UP_URL;
 @EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @ComponentScan("com.mortgert")
+@AllArgsConstructor(onConstructor_ = @Autowired)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
+
     private CustomAuthenticationProvider authProvider;
-    @Autowired
     private UserDetailsServiceImpl userDetailsService;
-    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
@@ -45,6 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http)throws Exception{
         http.cors().and().csrf().disable();
+        http.headers().frameOptions().sameOrigin();
         http.authorizeRequests().antMatchers("/","/home").permitAll()
                                 .antMatchers(HttpMethod.POST,SIGN_UP_URL).permitAll()
                                 .antMatchers("/login").permitAll()

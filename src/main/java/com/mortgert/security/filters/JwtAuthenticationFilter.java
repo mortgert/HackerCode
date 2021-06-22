@@ -24,13 +24,19 @@ import static com.mortgert.util.SecurityConstants.EXPIRATION_TIME;
 import static com.mortgert.util.SecurityConstants.SECRET;
 
 
+/**
+ * The type Jwt authentication filter.
+ */
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private AuthenticationManager authenticationManager;
 
 
-
-
+    /**
+     * Instantiates a new Jwt authentication filter.
+     *
+     * @param manager the manager
+     */
     public JwtAuthenticationFilter(AuthenticationManager manager){
         this.authenticationManager = manager;
         setFilterProcessesUrl("/user/login");
@@ -48,9 +54,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth)throws IOException{
-        String token = JWT.create().withSubject(((User)auth.getPrincipal()).getUsername())
+        byte[] bytes = SECRET.getBytes();
+         Algorithm alg = Algorithm.HMAC512(bytes);
+        String token = JWT.create().withSubject((auth.getPrincipal().toString()))
                                     .withExpiresAt(Date.from(Instant.now().plusMillis(EXPIRATION_TIME)))
-                                    .sign(Algorithm.HMAC512(SECRET.getBytes()));
+                                    .sign(alg);
         String body = ((User)auth.getPrincipal()).getUsername()+ " " + token;
         response.getWriter().write(body);
     response.getWriter().flush();

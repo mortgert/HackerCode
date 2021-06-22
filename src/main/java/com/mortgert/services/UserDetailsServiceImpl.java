@@ -3,6 +3,7 @@ package com.mortgert.services;
 import com.mortgert.data.models.Privilege;
 import com.mortgert.data.models.Role;
 import com.mortgert.data.models.User;
+import com.mortgert.data.repos.PrivilegeRepository;
 import com.mortgert.data.repos.RoleRepository;
 import com.mortgert.data.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private PrivilegeRepository privilegeRepository;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
@@ -34,6 +38,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                             roleRepository.findByName("ROLE_USER"))));
         }
         user.setRoles(roleRepository.findByUsers_Username(user.getUsername()));
+        for(Role role: user.getRoles()){
+            role.setPrivileges(privilegeRepository.findAllByRoles(role));
+        }
         Collection<Role> roleList = user.getRoles();
         return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(), user.isEnabled(),
                                                         true,true,true, getAuthorities(user.getRoles()));
@@ -63,4 +70,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         return authorities;
     }
+
+
 }

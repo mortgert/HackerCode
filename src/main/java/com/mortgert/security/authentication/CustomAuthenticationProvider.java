@@ -1,7 +1,9 @@
 package com.mortgert.security.authentication;
 
 import com.mortgert.data.repos.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -11,9 +13,10 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 
 @Component
+@AllArgsConstructor(onConstructor_ = @Autowired)
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
-    @Autowired
+
     UserRepository userRepository;
 
     @Override
@@ -24,7 +27,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         if(shouldAuthenticateAgainstDataBase(name,password)){
             return new UsernamePasswordAuthenticationToken(name,password,new ArrayList<>());
         }else{
-            return null;
+            throw new AuthenticationCredentialsNotFoundException("Credentials not Found, Please Try Again");
         }
     }
 
